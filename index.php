@@ -1,6 +1,8 @@
 <?php
 include './vendor/autoload.php';
 include './includes/enviroment.php';
+include './includes/templates.php';
+include './includes/conection-db.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,24 +16,12 @@ include './includes/enviroment.php';
 <body>
   <div class="container">
     <h1>Curso de bases de datos con PHP</h1>
-    <section class="box">
-      <h2>Insertar cliente</h2>
-      <form action="insertar.php" method="post">
-        <p>
-          <label for="name">Nombre:</label>
-          <input type="text" name="name" id="name">
-        </p>
-        <p>
-          <label for="email">Email:</label>
-          <input type="text" name="email" id="email">
-        </p>
-        <p>
-          <label for="address">Dirección postal:</label>
-          <input type="text" name="address" id="address">
-        </p>
-        <button>Insertar</button>
-      </form>
-    </section>
+    <?= $templates->render('customer-form', [
+      'formTitle' => 'Insertar un cliente',
+      'label' => 'Insertar',
+      'action' => 'insertar.php',
+      'old' => [],
+    ]) ?>
 
     <section class="box">
       <h2>Clientes</h2>
@@ -42,7 +32,6 @@ include './includes/enviroment.php';
           <th>Dirección</th>
         </tr>  
         <?php
-        include './includes/conection-db.php';
         $mysqli = generateConection();
 
         $ssql = "SELECT * FROM customers";
