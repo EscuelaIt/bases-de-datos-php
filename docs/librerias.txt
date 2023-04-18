@@ -1,0 +1,8 @@
+Librería para archivos de entorno:
+https://github.com/vlucas/phpdotenv
+
+Librería para templates
+https://platesphp.com/
+
+Librería para validación
+https://github.com/Respect/Validation
