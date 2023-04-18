@@ -1,3 +1,7 @@
+<?php
+include './vendor/autoload.php';
+include './includes/enviroment.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,6 +53,7 @@
               <td><?= $customer['name'] ?></td>
               <td><?= $customer['email'] ?></td>
               <td><?= $customer['address'] ?></td>
+              <td><a href="editar.php?id=<?= $customer['id'] ?>">[ Editar ]</a></td>
             </tr>
           <?php
         }
