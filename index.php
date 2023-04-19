@@ -43,6 +43,7 @@ include './includes/conection-db.php';
               <td><?= $customer['email'] ?></td>
               <td><?= $customer['address'] ?></td>
               <td><a href="editar.php?id=<?= $customer['id'] ?>">[ Editar ]</a></td>
+              <td><a href="borrar.php?id=<?= $customer['id'] ?>">[ Borrar ]</a></td>
             </tr>
           <?php
         }
