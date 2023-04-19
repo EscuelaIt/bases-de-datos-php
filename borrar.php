@@ -13,14 +13,11 @@
   <?php
   include './vendor/autoload.php';
   include './includes/enviroment.php';
-  include './includes/conection-db.php';
-  $mysqli = generateConection();
   
   $id = $_GET["id"] ?? null;
   if($id && ctype_digit($id)) {
-    $id = $mysqli->real_escape_string($id);
-    $ssql = "DELETE FROM customers WHERE id={$id}";
-    if($mysqli->query($ssql)) {
+    $customerModel = new App\Models\Customer();
+    if($customerModel->delete($id)) {
       echo "<p>Se ha borrado el cliente</p>";
     }
   } else {
@@ -34,6 +31,3 @@
 
 </body>
 </html>
-<?php
-$mysqli->close();
-?>

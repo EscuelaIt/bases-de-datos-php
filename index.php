@@ -2,7 +2,6 @@
 include './vendor/autoload.php';
 include './includes/enviroment.php';
 include './includes/templates.php';
-include './includes/conection-db.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -33,11 +32,9 @@ include './includes/conection-db.php';
           <th>Dirección</th>
         </tr>  
         <?php
-        $mysqli = generateConection();
-
-        $ssql = "SELECT * FROM customers";
-        $result = $mysqli->query($ssql);
-        while($customer = $result->fetch_assoc()) {
+        $customerModel = new App\Models\Customer();
+        $customers = $customerModel->getAll();
+        foreach($customers as $customer) {
           ?>
             <tr>
               <td><?= $customer['name'] ?></td>
@@ -48,13 +45,9 @@ include './includes/conection-db.php';
             </tr>
           <?php
         }
-        $result->free();
         ?>
       </table>
     </section>
   </div>
 </body>
 </html>
-<?php
-$mysqli->close();
-?>

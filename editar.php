@@ -1,7 +1,6 @@
 <?php
   include './vendor/autoload.php';
   include './includes/enviroment.php';
-  include './includes/conection-db.php';
   include './includes/templates.php';
   include './includes/validation.php';
 ?>
@@ -17,18 +16,13 @@
 <body>
   <div class="container">
   <?php
-    $mysqli = generateConection();
+
+    $customerModel = new App\Models\Customer();
 
     if($_POST) {
       $errors = validateCustomer($_POST);
       if(count($errors) == 0) {
-        $name = $mysqli->real_escape_string($_POST["name"]);
-        $email = $mysqli->real_escape_string($_POST["email"]);
-        $address = $mysqli->real_escape_string($_POST["address"]);
-        $id = $mysqli->real_escape_string($_POST["id"]);
-  
-        $ssql = "UPDATE customers SET name='{$name}', email='{$email}', address='{$address}' WHERE id={$id}";
-        if($mysqli->query($ssql)) {
+        if($customerModel->update($_POST)) {
           echo "<p>El cliente se ha editado</p>";
         }
       } else {
@@ -43,13 +37,10 @@
     } else {
       $id = $_GET["id"] ?? null;
       if($id && ctype_digit($id)) {
-        $id = $mysqli->real_escape_string($id);
-        $ssql = "SELECT * FROM customers WHERE id={$id}";
-        $result = $mysqli->query($ssql);
-        if($result->num_rows == 0) {
+        $customer = $customerModel->getId($id);
+        if(! $customer) {
           echo '<p>No he encontrado ese elemento</p>';
         } else {
-          $customer = $result->fetch_assoc();
           echo $templates->render('customer-form', [
             'formTitle' => 'Editar un cliente',
             'label' => 'Guardar',
@@ -71,6 +62,3 @@
 
 </body>
 </html>
-<?php
-$mysqli->close();
-?>

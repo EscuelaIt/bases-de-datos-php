@@ -13,20 +13,14 @@
   <?php
   include './vendor/autoload.php';
   include './includes/enviroment.php';
-  include './includes/conection-db.php';
   include './includes/validation.php';
   include './includes/templates.php';
-  $mysqli = generateConection();
 
   $errors = validateCustomer($_POST);
   
   if(count($errors) == 0) {
-    $name = $mysqli->real_escape_string($_POST["name"]);
-    $email = $mysqli->real_escape_string($_POST["email"]);
-    $address = $mysqli->real_escape_string($_POST["address"]);
-  
-    $ssql = "INSERT INTO customers (name, email, address) VALUES ('{$name}', '{$email}', '{$address}')";
-    if($mysqli->query($ssql)) {
+    $customerModel = new App\Models\Customer();
+    if($customerModel->insert($_POST)) {
       echo "<p>Cliente insertado</p>";
     }
   } else {
@@ -46,6 +40,3 @@
 
 </body>
 </html>
-<?php
-$mysqli->close();
-?>

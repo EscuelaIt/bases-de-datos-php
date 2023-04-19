@@ -1,2 +1,5 @@
 <?php
-$templates = new League\Plates\Engine('./views');
+
+use League\Plates\Engine;
+
+$templates = new Engine('./views');
