@@ -3,6 +3,7 @@
   include './includes/enviroment.php';
   include './includes/conection-db.php';
   include './includes/templates.php';
+  include './includes/validation.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,14 +20,25 @@
     $mysqli = generateConection();
 
     if($_POST) {
-      $name = $mysqli->real_escape_string($_POST["name"]);
-      $email = $mysqli->real_escape_string($_POST["email"]);
-      $address = $mysqli->real_escape_string($_POST["address"]);
-      $id = $mysqli->real_escape_string($_POST["id"]);
-
-      $ssql = "UPDATE customers SET name='{$name}', email='{$email}', address='{$address}' WHERE id={$id}";
-      if($mysqli->query($ssql)) {
-        echo "<p>El cliente se ha editado</p>";
+      $errors = validateCustomer($_POST);
+      if(count($errors) == 0) {
+        $name = $mysqli->real_escape_string($_POST["name"]);
+        $email = $mysqli->real_escape_string($_POST["email"]);
+        $address = $mysqli->real_escape_string($_POST["address"]);
+        $id = $mysqli->real_escape_string($_POST["id"]);
+  
+        $ssql = "UPDATE customers SET name='{$name}', email='{$email}', address='{$address}' WHERE id={$id}";
+        if($mysqli->query($ssql)) {
+          echo "<p>El cliente se ha editado</p>";
+        }
+      } else {
+        echo $templates->render('customer-form', [
+          'formTitle' => 'Editar un cliente',
+          'label' => 'Guardar',
+          'action' => 'editar.php',
+          'old' => $_POST,
+          'errors' => $errors,
+        ]);
       }
     } else {
       $id = $_GET["id"] ?? null;
@@ -43,6 +55,7 @@
             'label' => 'Guardar',
             'action' => 'editar.php',
             'old' => $customer,
+            'errors' => [],
           ]);
         }
       } else {

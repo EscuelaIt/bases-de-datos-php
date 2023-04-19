@@ -1,5 +1,10 @@
 <section class="box">
   <h2><?= $formTitle ?></h2>
+
+  <?= $this->insert('partials/form-errors', [
+    'errors' => $errors,
+  ])?>
+
   <form action="<?= $action ?>" method="post">
     <input type="hidden" name="id" value="<?= $old["id"] ?? '' ?>">
     <p>

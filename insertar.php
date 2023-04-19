@@ -14,15 +14,29 @@
   include './vendor/autoload.php';
   include './includes/enviroment.php';
   include './includes/conection-db.php';
+  include './includes/validation.php';
+  include './includes/templates.php';
   $mysqli = generateConection();
-  
-  $name = $mysqli->real_escape_string($_POST["name"]);
-  $email = $mysqli->real_escape_string($_POST["email"]);
-  $address = $mysqli->real_escape_string($_POST["address"]);
 
-  $ssql = "INSERT INTO customers (name, email, address) VALUES ('{$name}', '{$email}', '{$address}')";
-  if($mysqli->query($ssql)) {
-    echo "<p>Cliente insertado</p>";
+  $errors = validateCustomer($_POST);
+  
+  if(count($errors) == 0) {
+    $name = $mysqli->real_escape_string($_POST["name"]);
+    $email = $mysqli->real_escape_string($_POST["email"]);
+    $address = $mysqli->real_escape_string($_POST["address"]);
+  
+    $ssql = "INSERT INTO customers (name, email, address) VALUES ('{$name}', '{$email}', '{$address}')";
+    if($mysqli->query($ssql)) {
+      echo "<p>Cliente insertado</p>";
+    }
+  } else {
+    echo $templates->render('customer-form', [
+      'formTitle' => 'Insertar un cliente',
+      'label' => 'Insertar',
+      'action' => 'insertar.php',
+      'old' => $_POST,
+      'errors' => $errors,
+    ]);
   }
   ?>
   <p>

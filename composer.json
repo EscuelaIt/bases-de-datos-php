@@ -1,6 +1,7 @@
 {
     "require": {
         "vlucas/phpdotenv": "^5.5",
-        "league/plates": "^3.5"
+        "league/plates": "^3.5",
+        "respect/validation": "^2.2"
     }
 }

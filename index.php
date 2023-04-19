@@ -21,6 +21,7 @@ include './includes/conection-db.php';
       'label' => 'Insertar',
       'action' => 'insertar.php',
       'old' => [],
+      'errors' => [],
     ]) ?>
 
     <section class="box">
