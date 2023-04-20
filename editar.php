@@ -1,64 +1,41 @@
 <?php
-  include './vendor/autoload.php';
-  include './includes/enviroment.php';
-  include './includes/templates.php';
-  include './includes/validation.php';
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Editar</title>
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <div class="container">
-  <?php
+include './vendor/autoload.php';
+include './includes/enviroment.php';
+include './includes/templates.php';
+include './includes/validation.php';
 
-    $customerModel = new App\Models\Customer();
+$feedback = new App\Feedback();
+$customerModel = new App\Models\Customer();
 
-    if($_POST) {
-      $errors = validateCustomer($_POST);
-      if(count($errors) == 0) {
-        if($customerModel->update($_POST)) {
-          echo "<p>El cliente se ha editado</p>";
-        }
-      } else {
-        echo $templates->render('customer-form', [
-          'formTitle' => 'Editar un cliente',
-          'label' => 'Guardar',
-          'action' => 'editar.php',
-          'old' => $_POST,
-          'errors' => $errors,
-        ]);
-      }
-    } else {
-      $id = $_GET["id"] ?? null;
-      if($id && ctype_digit($id)) {
-        $customer = $customerModel->getId($id);
-        if(! $customer) {
-          echo '<p>No he encontrado ese elemento</p>';
-        } else {
-          echo $templates->render('customer-form', [
-            'formTitle' => 'Editar un cliente',
-            'label' => 'Guardar',
-            'action' => 'editar.php',
-            'old' => $customer,
-            'errors' => [],
-          ]);
-        }
-      } else {
-        echo '<p>No he recibido el identificador</p>';
-      }
+$errors = [];
+
+if(!$_POST) {
+  // obtener el cliente que debe editarse
+  $id = $_GET["id"] ?? null;
+  if(! $id || !ctype_digit($id)) {
+    $feedback->flashError('No hemos recibido el identificador del cliente')->redirect('/');
+  } else {
+    $customer = $customerModel->getId($id);
+    if(! $customer) {
+      $feedback->flashError('No existe el cliente')->redirect('/');
     }
+  }
+} else {
+  // Estoy recibiendo datos de un cliente para supuestamente guardarlo
+  $errors = validateCustomer($_POST);
+  if(count($errors) == 0) {
+    if($customerModel->update($_POST)) {
+      $feedback->flashSuccess('Se ha editado el cliente')->redirect('/');
+    } else {
+      $errors[] = 'Hubo un error al editar, intenta más tarde';
+      $customer = $_POST;
+    }
+  } else {
+    $customer = $_POST;
+  }
+}
 
-  ?>
-  <p>
-    <a href=".">Volver</a>
-  </p>
-  </div>
-
-</body>
-</html>
+echo $templates->render('sections/edit', [
+  'errors' => $errors,
+  'customer' => $customer,
+]);
