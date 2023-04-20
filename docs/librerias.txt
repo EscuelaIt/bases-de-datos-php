@@ -6,3 +6,6 @@ https://platesphp.com/
 
 Librería para validación
 https://github.com/Respect/Validation
+
+Librería para log
+https://github.com/Seldaek/monolog
