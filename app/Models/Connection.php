@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Log;
+
 class Connection {
   private static $instance;
   private $connection;
@@ -17,6 +19,8 @@ class Connection {
       echo "Error de conexión con la base de datos: " . $this->connection->connect_errno;	
       exit();
     }
+
+    Log::log('Conexión abierta');
   }
 
   public static function getInstance() {
@@ -32,6 +36,7 @@ class Connection {
 
   function __destruct() {
     $this->connection->close();
+    Log::log('Conexión cerrada');
   }
 }
 

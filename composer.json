@@ -2,7 +2,8 @@
     "require": {
         "vlucas/phpdotenv": "^5.5",
         "league/plates": "^3.5",
-        "respect/validation": "^2.2"
+        "respect/validation": "^2.2",
+        "monolog/monolog": "^3.3"
     },
     "autoload": {
         "psr-4": {
