@@ -2,6 +2,7 @@
 include './vendor/autoload.php';
 include './includes/enviroment.php';
 include './includes/templates.php';
+$feedbackElement = new App\Feedback();
 
 $customerModel = new App\Models\Customer();
 $customers = $customerModel->getAll();

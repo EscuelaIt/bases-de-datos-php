@@ -9,6 +9,8 @@
 </head>
 <body>
   <div class="container">
+    <?= App\Feedback::showFeedback($this) ?>
+
     <h1><?= $title ?></h1>
     <?=$this->section('content')?>
 
