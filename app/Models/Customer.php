@@ -4,14 +4,12 @@ namespace App\Models;
 
 class Customer extends Model {
 
-  public function getAll() {
-    $mysqli = $this->getConnection();
+  public function __construct() {
+    $this->table = 'customers';
+  }
 
-    $ssql = "SELECT * FROM customers";
-    $result = $mysqli->query($ssql);
-    $allRows = $result->fetch_all(MYSQLI_ASSOC);
-    $result->free();
-    return $allRows;
+  protected function getAllSql() {
+    return "SELECT customers.*, countries.name as 'country' FROM customers, countries WHERE customers.country_id = countries.id";
   }
 
   public function insert($data) {
@@ -20,8 +18,9 @@ class Customer extends Model {
     $name = $mysqli->real_escape_string($data["name"]);
     $email = $mysqli->real_escape_string($data["email"]);
     $address = $mysqli->real_escape_string($data["address"]);
+    $country_id = $mysqli->real_escape_string($data["country_id"]);
   
-    $ssql = "INSERT INTO customers (name, email, address) VALUES ('{$name}', '{$email}', '{$address}')";
+    $ssql = "INSERT INTO customers (name, email, address, country_id) VALUES ('{$name}', '{$email}', '{$address}', {$country_id})";
     return $mysqli->query($ssql);
   }
   
@@ -50,9 +49,10 @@ class Customer extends Model {
     $name = $mysqli->real_escape_string($data["name"]);
     $email = $mysqli->real_escape_string($data["email"]);
     $address = $mysqli->real_escape_string($data["address"]);
+    $country_id = $mysqli->real_escape_string($data["country_id"]);
     $id = $mysqli->real_escape_string($data["id"]);
 
-    $ssql = "UPDATE customers SET name='{$name}', email='{$email}', address='{$address}' WHERE id={$id}";
+    $ssql = "UPDATE customers SET name='{$name}', email='{$email}', address='{$address}', country_id='{$country_id}' WHERE id={$id}";
     return $mysqli->query($ssql);
   }
 }

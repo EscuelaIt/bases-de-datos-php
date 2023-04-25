@@ -17,7 +17,11 @@ if(count($errors) == 0) {
   }
 } 
 
+$countryModel = new App\Models\Country();
+$countries = $countryModel->getAll();
+
 echo $templates->render('sections/insert', [
     'old' => $_POST,
     'errors' => $errors,
+    'countries' => $countries,
 ]);

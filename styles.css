@@ -42,6 +42,11 @@ input {
   width: 100%;
   max-width: 400px;
 }
+select {
+  padding: 0.3rem;
+  width: 100%;
+  max-width: 400px;
+}
 button {
   border-radius: 1rem;
   background-color: var(--primary-color);
@@ -88,4 +93,10 @@ section.box td {
 .feedback-success {
   border: 1px solid var(--success-color);
   background-color: #b0fce9;
+}
+.control {
+  white-space: nowrap;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+
 }

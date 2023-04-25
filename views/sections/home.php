@@ -8,6 +8,7 @@
   'action' => 'insertar.php',
   'old' => [],
   'errors' => [],
+  'countries' => $countries,
 ]) ?>
 
 <?= $this->insert('partials/customer-list', [

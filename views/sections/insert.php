@@ -8,6 +8,7 @@
   'action' => 'insertar.php',
   'old' => $old,
   'errors' => $errors,
+  'countries' => $countries,
 ]);
 ?>
 

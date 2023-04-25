@@ -6,6 +6,8 @@ include './includes/validation.php';
 
 $feedback = new App\Feedback();
 $customerModel = new App\Models\Customer();
+$countryModel = new App\Models\Country();
+$countries = $countryModel->getAll();
 
 $errors = [];
 
@@ -38,4 +40,5 @@ if(!$_POST) {
 echo $templates->render('sections/edit', [
   'errors' => $errors,
   'customer' => $customer,
+  'countries' => $countries,
 ]);

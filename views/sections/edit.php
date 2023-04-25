@@ -8,6 +8,7 @@
   'action' => 'editar.php',
   'old' => $customer,
   'errors' => $errors,
+  'countries' => $countries,
 ]);
 ?>
 
