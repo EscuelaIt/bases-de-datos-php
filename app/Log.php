@@ -13,7 +13,7 @@ class Log  {
     if(! self::$logChanel) {
       // create a log channel
       self::$logChanel = new Logger('default');
-      self::$logChanel->pushHandler(new StreamHandler('logs/app.log', Level::Warning));
+      self::$logChanel->pushHandler(new StreamHandler('../logs/app.log', Level::Warning));
     }
     return self::$logChanel;
   }

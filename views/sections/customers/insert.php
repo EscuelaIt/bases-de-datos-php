@@ -1,12 +1,12 @@
 <?php $this->layout('layouts/layout', [
-  'title' => 'Edición de cliente',
+  'title' => 'Creación de un nuevo cliente',
 ]) ?>
 
 <?= $this->insert('partials/customer-form', [
-  'formTitle' => 'Editar un cliente',
-  'label' => 'Guardar',
-  'action' => 'editar.php',
-  'old' => $customer,
+  'formTitle' => 'Insertar un cliente',
+  'label' => 'Insertar',
+  'action' => '/clientes/insertar',
+  'old' => $old,
   'errors' => $errors,
   'countries' => $countries,
 ]);

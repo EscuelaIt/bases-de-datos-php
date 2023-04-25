@@ -1,16 +1,8 @@
 <?php $this->layout('layouts/layout', [
-  'title' => $title,
+  'title' => "Bienvenidos a mi web",
 ]) ?>
 
-<?= $this->insert('partials/customer-form', [
-  'formTitle' => 'Insertar un cliente',
-  'label' => 'Insertar',
-  'action' => 'insertar.php',
-  'old' => [],
-  'errors' => [],
-  'countries' => $countries,
-]) ?>
+<p>
+  <a href="/clientes">Clientes</a>
 
-<?= $this->insert('partials/customer-list', [
-  'customers' => $customers,
-]);
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Odio eos explicabo illo omnis, inventore necessitatibus dolores veniam sed quis deleniti aliquid, illum modi. Deserunt repellat, pariatur odit hic culpa cum!</p>

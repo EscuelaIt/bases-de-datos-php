@@ -2,5 +2,5 @@
 
 use Dotenv\Dotenv;
 
-$dotenv = Dotenv::createImmutable('./');
+$dotenv = Dotenv::createImmutable('../');
 $dotenv->load();

@@ -1,1 +1,4 @@
 php -S localhost:8000
+
+Para servir una carpeta en particular
+php -S localhost:8000 -t public

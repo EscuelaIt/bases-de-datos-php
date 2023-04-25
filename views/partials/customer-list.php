@@ -13,8 +13,8 @@
           <td><?= $customer['email'] ?></td>
           <td><?= $customer['address'] ?></td>
           <td><?= $customer['country'] ?></td>
-          <td class="control"><a href="editar.php?id=<?= $customer['id'] ?>">[ Editar ]</a></td>
-          <td class="control"><a href="borrar.php?id=<?= $customer['id'] ?>">[ Borrar ]</a></td>
+          <td class="control"><a href="/clientes/editar?id=<?= $customer['id'] ?>">[ Editar ]</a></td>
+          <td class="control"><a href="/clientes/borrar?id=<?= $customer['id'] ?>">[ Borrar ]</a></td>
         </tr>
     <?php endforeach ?>
   </table>
