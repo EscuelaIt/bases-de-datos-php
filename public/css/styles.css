@@ -100,3 +100,31 @@ section.box td {
   text-transform: uppercase;
 
 }
+.button-mini {
+  font-size: 0.875rem;
+}
+
+.tag-chips {
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+}
+.tag-chips li {
+  margin: 0;
+  padding: 0.2rem 0.4rem;
+  background-color: #333;
+  list-style-type: none;
+  margin-right: 1rem;
+  font-size: 0.875rem;
+  color: var(--primary-color);
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--primary-color);
+}
+.tag-chips li span {
+  margin-right: 0.5rem;
+}
+.tag-chips li a {
+  color: #f99;
+  text-decoration: none;
+}

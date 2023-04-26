@@ -2,9 +2,12 @@
 
 namespace App\Controllers;
 
+use App\Models\Tag;
 use App\Models\Country;
 use App\Models\Customer;
 use App\Validation\CustomerValidator;
+use App\Validation\CustomerTagValidator;
+use Psr\Http\Message\ServerRequestInterface;
 
 class CustomerController extends Controller {
   
@@ -22,6 +25,39 @@ class CustomerController extends Controller {
 
     return $this->response($output);
   }
+
+  public function single($request, $params) {
+    $customer = $this->getCustomerParam($params); 
+
+    $customerModel = new Customer();
+    $customerTags = $customerModel->getCustomerTags($customer["id"]);
+
+    $tagModel = new Tag();
+    $tags = $tagModel->getAll();
+
+
+    return $this->response(
+      $this->render('sections/customers/single', [
+        'customer' => $customer,
+        'tags' => $tags,
+        'customerTags' => $customerTags,
+      ])
+    );
+  }
+
+  private function getCustomerParam($params) {
+    $id = $params["id"] ?? null;
+    if(!$id || !ctype_digit($id)) {
+      $this->feedback->flashError('Identificador no recibido')->redirect('/clientes');
+    }
+    $customerModel = new Customer(); 
+    $relatedCustomer = $customerModel->getId($id);
+    if(! $relatedCustomer) {
+      $this->feedback->flashError('No se encuentra el cliente')->redirect('/clientes');
+    }
+    return $relatedCustomer;
+  }
+
 
   public function insert() {
     $customerValidator = new CustomerValidator($_POST);
@@ -114,5 +150,43 @@ class CustomerController extends Controller {
     ]);
 
     return $this->response($output);
+  }
+
+  public function asssocTag(ServerRequestInterface $request, $params) {
+    $customer = $this->getCustomerParam($params);
+    $data = [
+      'customer_id' => $customer["id"],
+      'tag_id' => $_POST['tag_id'] ?? null,
+    ];
+    $customerTagValidator = new CustomerTagValidator($data);
+    $errors = $customerTagValidator->getErrors();
+    if(! $customerTagValidator->isValid()) {
+      $this->feedback->flashErrorArray($errors)->redirect('/clientes/' . $customer["id"]);
+    }
+
+    $customerModel = new Customer();
+    if($customerModel->associateTag($data['customer_id'], $data['tag_id'])) {
+      $this->feedback->flashSuccess('Asociado la etiqueta al cliente')->redirect('/clientes/'  . $customer["id"]);
+    } else {
+      $this->feedback->flashError('No se pudo asociar la etiqueta al cliente')->redirect('/clientes/'  . $customer["id"]);
+    }
+  }
+
+  public function unAsssocTag(ServerRequestInterface $request, $params) {
+    $data = [
+      'customer_id' => $params["customer_id"],
+      'tag_id' => $params["tag_id"],
+    ];
+    $customerTagValidator = new CustomerTagValidator($data, false);
+    $errors = $customerTagValidator->getErrors();
+    if(! $customerTagValidator->isValid()) {
+      $this->feedback->flashErrorArray($errors)->redirect('/clientes/' . $params["customer_id"]);
+    }
+    $customerModel = new Customer();
+    if($customerModel->unAssociateTag($params["customer_id"], $params["tag_id"])) {
+      $this->feedback->flashSuccess('Eliminada la etiqueta del cliente')->redirect('/clientes/'  . $params["customer_id"]);
+    } else {
+      $this->feedback->flashError('No se pudo eliminar la asociación de la etiqueta')->redirect('/clientes/'  . $params["customer_id"]);
+    }
   }
 }

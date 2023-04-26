@@ -24,10 +24,18 @@ class Feedback {
     return $this;
   }
 
+  public function flashErrorArray($array) {
+    foreach($array as $message) {
+      $this->flashError($message);
+    }
+    return $this;
+  }
+
   public function redirect($url) {
     header("location: $url");
     exit;
   }
+
 
   
 

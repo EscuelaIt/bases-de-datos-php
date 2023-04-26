@@ -36,7 +36,7 @@ class Model {
   public function getId($id) {
     $mysqli = $this->getConnection();
     $id = $mysqli->real_escape_string($id);
-    $ssql = "SELECT * FROM {$this->table} where id={$id}";
+    $ssql = $this->getIdSql($id);
     $result = $mysqli->query($ssql);
     if($result && $result->num_rows != 1) {
       return null;
@@ -44,4 +44,9 @@ class Model {
       return $result->fetch_assoc();
     }
   }
+
+  protected function getIdSql($id) {
+    return "SELECT * FROM {$this->table} where id={$id}";
+  }
+
 }

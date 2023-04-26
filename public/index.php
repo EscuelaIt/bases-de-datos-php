@@ -19,6 +19,9 @@ $router->map('POST', '/clientes/insertar', 'App\Controllers\CustomerController::
 $router->map('GET', '/clientes/borrar', 'App\Controllers\CustomerController::delete');
 $router->map('GET', '/clientes/editar', 'App\Controllers\CustomerController::edit');
 $router->map('POST', '/clientes/editar', 'App\Controllers\CustomerController::editSave');
+$router->map('GET', '/clientes/{id}', 'App\Controllers\CustomerController::single');
+$router->map('POST', '/clientes/{id}/asociar-tag', 'App\Controllers\CustomerController::asssocTag');
+$router->map('GET', '/clientes/{customer_id}/desvincular-tag/{tag_id}', 'App\Controllers\CustomerController::unAsssocTag');
 
 $router->map('GET', '/etiquetas', 'App\Controllers\TagController::home');
 $router->map('POST', '/etiquetas/insertar', 'App\Controllers\TagController::insert');

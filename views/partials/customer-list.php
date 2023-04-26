@@ -9,7 +9,9 @@
     </tr>  
     <?php foreach($customers as $customer): ?>
         <tr>
-          <td><?= $customer['name'] ?></td>
+          <td>
+            <a href="/clientes/<?= $customer['id'] ?>"><?= $customer['name'] ?></a>
+          </td>
           <td><?= $customer['email'] ?></td>
           <td><?= $customer['address'] ?></td>
           <td><?= $customer['country'] ?></td>
