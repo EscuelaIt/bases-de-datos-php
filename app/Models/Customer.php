@@ -32,18 +32,6 @@ class Customer extends Model {
     return $mysqli->query($ssql);
   }
 
-  public function getId($id) {
-    $mysqli = $this->getConnection();
-    $id = $mysqli->real_escape_string($_GET["id"]);
-    $ssql = "SELECT * FROM customers where id={$id}";
-    $result = $mysqli->query($ssql);
-    if($result && $result->num_rows != 1) {
-      return null;
-    } else {
-      return $result->fetch_assoc();
-    }
-  }
-
   public function update($data) {
     $mysqli = $this->getConnection();
     $name = $mysqli->real_escape_string($data["name"]);
