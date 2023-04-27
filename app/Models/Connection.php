@@ -15,7 +15,7 @@ class Connection {
     $password = $_ENV["DB_PASSWORD"];
     $db = $_ENV["DB_DB"];
 
-    $dsn = "mysql:host={$host};dbname={$db}";
+    $dsn = "sqlite:/Users/midesweb/proyectos/bbdd_php/db/proyecto.db";
     try {
       $this->connection = new PDO($dsn, $user, $password, [
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
