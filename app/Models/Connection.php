@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use PDO;
 use App\Log;
 
 class Connection {
@@ -14,9 +15,13 @@ class Connection {
     $password = $_ENV["DB_PASSWORD"];
     $db = $_ENV["DB_DB"];
 
-    $this->connection = new \mysqli($host, $user, $password, $db);
-    if($this->connection->connect_errno) {
-      echo "Error de conexión con la base de datos: " . $this->connection->connect_errno;	
+    $dsn = "mysql:host={$host};dbname={$db}";
+    try {
+      $this->connection = new PDO($dsn, $user, $password, [
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
+      ]);  
+    } catch(PDOException $e) {
+      echo "Error de conexión con la base de datos: " . $e->getMessage();	
       exit();
     }
 
@@ -32,11 +37,6 @@ class Connection {
 
   public function getConnection() {
     return $this->connection;
-  }
-
-  function __destruct() {
-    $this->connection->close();
-    Log::log('Conexión cerrada');
   }
 }
 

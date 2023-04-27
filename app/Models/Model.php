@@ -11,11 +11,10 @@ class Model {
   }
 
   public function getAll() {
-    $mysqli = $this->getConnection();
+    $pdo = $this->getConnection();
     $ssql = $this->getAllSql();
-    $result = $mysqli->query($ssql);
-    $allRows = $result->fetch_all(MYSQLI_ASSOC);
-    $result->free();
+    $result = $pdo->query($ssql);
+    $allRows = $result->fetchAll();
     return $allRows;
   }
 
@@ -24,29 +23,32 @@ class Model {
   }
 
   public function exists($id) {
-    $mysqli = $this->getConnection();
-    $id = $mysqli->real_escape_string($id);
-    $ssql = "SELECT COUNT(*) AS num FROM {$this->table} WHERE id={$id}";
-    $result = $mysqli->query($ssql);
-    $row = $result->fetch_assoc();
-    $result->free();
+    $pdo = $this->getConnection();
+    $ssql = "SELECT COUNT(*) AS num FROM {$this->table} WHERE id=:id";
+    $statement = $pdo->prepare($ssql);
+    $statement->execute([
+      ':id' => $id,
+    ]);
+    $row = $statement->fetch();
     return $row["num"] > 0;
   }
 
   public function getId($id) {
-    $mysqli = $this->getConnection();
-    $id = $mysqli->real_escape_string($id);
-    $ssql = $this->getIdSql($id);
-    $result = $mysqli->query($ssql);
-    if($result && $result->num_rows != 1) {
+    $pdo = $this->getConnection();
+    $ssql = $this->getIdSql();
+    $statement = $pdo->prepare($ssql);
+    $statement->execute([
+      ':id' => $id,
+    ]);
+    if(! $statement || $statement->rowCount() != 1) {
       return null;
     } else {
-      return $result->fetch_assoc();
+      return $statement->fetch();
     }
   }
 
-  protected function getIdSql($id) {
-    return "SELECT * FROM {$this->table} where id={$id}";
+  protected function getIdSql() {
+    return "SELECT * FROM {$this->table} where id=:id";
   }
 
 }

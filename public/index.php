@@ -29,6 +29,8 @@ $router->map('GET', '/etiquetas/borrar/{id}', 'App\Controllers\TagController::de
 $router->map('GET', '/etiquetas/editar/{id}', 'App\Controllers\TagController::edit');
 $router->map('POST', '/etiquetas/editar/{id}', 'App\Controllers\TagController::editSave');
 
+$router->map('GET', '/pdo', 'App\Controllers\MainController::pdo');
+
 $response = $router->dispatch($request);
 
 // send the response to the browser
