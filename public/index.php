@@ -31,6 +31,11 @@ $router->map('POST', '/etiquetas/editar/{id}', 'App\Controllers\TagController::e
 
 $router->map('GET', '/pdo', 'App\Controllers\MainController::pdo');
 
+$router->map('GET', '/paises', 'App\Controllers\CountryController::index');
+$router->map('POST', '/paises/insertar', 'App\Controllers\CountryController::insert');
+$router->map('GET', '/paises/{id}', 'App\Controllers\CountryController::single');
+$router->map('POST', '/paises/{id}/provincia', 'App\Controllers\StateController::insert');
+
 $response = $router->dispatch($request);
 
 // send the response to the browser
