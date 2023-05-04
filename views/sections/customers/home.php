@@ -9,6 +9,7 @@
   'old' => [],
   'errors' => [],
   'countries' => $countries,
+  'stateModel' => $stateModel,
 ]) ?>
 
 <?= $this->insert('partials/customer-list', [

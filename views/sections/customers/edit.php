@@ -9,9 +9,10 @@
   'old' => $customer,
   'errors' => $errors,
   'countries' => $countries,
+  'stateModel' => $stateModel,
 ]);
 ?>
 
 <p>
-  <a href=".">Volver</a>
+  <a href="/clientes">Volver</a>
 </p>

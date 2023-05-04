@@ -42,7 +42,7 @@ class CountryController extends Controller {
       $this->feedback->flashError('Identificador no recibido')->redirect('/paises');
     }
     $countryModel = new Country();
-    $country = $countryModel->getId($params['id']);
+    $country = $countryModel->getId($id);
     if(!$country) {
       $this->feedback->flashError('País no encontrado')->redirect('/paises');
     }

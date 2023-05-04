@@ -128,3 +128,7 @@ section.box td {
   color: #f99;
   text-decoration: none;
 }
+
+.alternative-select {
+  display: none;
+}

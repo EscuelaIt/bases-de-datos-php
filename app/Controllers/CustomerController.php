@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Tag;
+use App\Models\State;
 use App\Models\Country;
 use App\Models\Customer;
 use App\Validation\CustomerValidator;
@@ -16,11 +17,13 @@ class CustomerController extends Controller {
     $customers = $customerModel->getAll();
     $countryModel = new Country();
     $countries = $countryModel->getAll();
+    $stateModel = new State();
 
     $output = $this->render('sections/customers/home', [
       'title' => 'Curso de bases de datos con PHP',
       'customers' => $customers,
       'countries' => $countries,
+      'stateModel' => $stateModel,
     ]);
 
     return $this->response($output);
@@ -62,7 +65,7 @@ class CustomerController extends Controller {
   public function insert() {
     $customerValidator = new CustomerValidator($_POST);
     $errors = $customerValidator->getErrors();
-
+    $stateModel = new State();
 
     if($customerValidator->isValid()) {
       $customerModel = new Customer();
@@ -80,6 +83,7 @@ class CustomerController extends Controller {
         'old' => $_POST,
         'errors' => $errors,
         'countries' => $countries,
+        'stateModel' => $stateModel,
     ]);
 
     return $this->response($output);
@@ -102,6 +106,7 @@ class CustomerController extends Controller {
   public function edit() {
     $customerModel = new Customer();
     $countryModel = new Country();
+    $stateModel = new State();
     $countries = $countryModel->getAll();
     // obtener el cliente que debe editarse
     $id = $_GET["id"] ?? null;
@@ -118,6 +123,7 @@ class CustomerController extends Controller {
       'errors' => [],
       'customer' => $customer,
       'countries' => $countries,
+      'stateModel' => $stateModel,
     ]);
 
     return $this->response($output);
@@ -127,6 +133,8 @@ class CustomerController extends Controller {
     // Estoy recibiendo datos de un cliente para supuestamente guardarlo
     $customerModel = new Customer();
     $countryModel = new Country();
+    $stateModel = new State();
+
     $countries = $countryModel->getAll();
 
     $customerValidator = new CustomerValidator($_POST);
@@ -147,6 +155,8 @@ class CustomerController extends Controller {
       'errors' => $errors,
       'customer' => $customer,
       'countries' => $countries,
+      'stateModel' => $stateModel,
+
     ]);
 
     return $this->response($output);

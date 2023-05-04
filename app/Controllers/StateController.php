@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 class StateController extends Controller {
   public function insert(ServerRequestInterface $request, $params) {
+    $stateModel = new State();
     $countryModel = new Country();
     $country_id = $params['id'] ?? null;
     if(!$country_id || !ctype_digit($country_id)) {
@@ -21,7 +22,6 @@ class StateController extends Controller {
     $stateValidator = new StateValidator($state);
     $errors = $stateValidator->validate();
     if(count($errors) == 0) {
-      $stateModel = new State();
       if($stateModel->insert($state)) {
         $this->feedback->flashSuccess('Provincia insertada')->redirect('/paises/' . $country_id);
       } else {
@@ -29,10 +29,12 @@ class StateController extends Controller {
       }
     }
 
+    $states = $stateModel->getCountryStates($country["id"]);
     return $this->response($this->render('sections/countries/single', [
       'country' => $country,
       'old' => $state,
       'errors' => $errors,
+      'states' => $states,
     ]));
   }
 }
