@@ -22,15 +22,38 @@ class Customer extends Model {
     $pdo = $this->getConnection();
     $ssql = "INSERT INTO customers (name, email, address, country_id, state_id) VALUES (:name, :email, :address, :country_id, :state_id)";
     $statement = $pdo->prepare($ssql);
-    return $statement->execute([
+    if($statement->execute([
       ':name' => $data["name"],
       ':email' => $data["email"],
       ':address' => $data["address"],
       ':country_id' => $data["country_id"],
       ':state_id' => $data["state_id"],
-    ]);
+    ])) {
+      $customerId = $pdo->lastInsertId();
+      $this->insertTags($customerId, $data["tags"]);
+      return true;
+    }
+    return false;
   }
   
+  private function insertTags($customerId, $tags) {
+    $tagModel = new Tag();
+    $tagsArray = explode(',', $tags);
+    foreach($tagsArray as $tagName) {
+      $tagName = trim($tagName);
+      if($tagName != '') {
+        if(! $tagModel->existsByName($tagName)) {
+          $tagModel->insert([
+            'name' => $tagName,
+            'description' => '',
+          ]);
+        }
+        $tag = $tagModel->getByName($tagName);
+        $this->associateTag($customerId, $tag['id']);
+      }
+    }
+  }
+
   public function delete($id) {
     $pdo = $this->getConnection();
     $ssql = "DELETE FROM customers WHERE id=:id";

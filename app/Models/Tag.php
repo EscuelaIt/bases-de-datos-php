@@ -36,4 +36,29 @@ class Tag extends Model {
       ':id' => $id,
     ]);
   }
+
+  public function existsByName($name) {
+    $pdo = $this->getConnection();
+    $ssql = "SELECT COUNT(*) AS num FROM {$this->table} WHERE name like :name";
+    $statement = $pdo->prepare($ssql);
+    $statement->execute([
+      ':name' => $name,
+    ]);
+    $row = $statement->fetch();
+    return $row["num"] > 0;
+  }
+
+  public function getByName($name) {
+    $pdo = $this->getConnection();
+    $ssql = "SELECT * FROM {$this->table} where name=:name";
+    $statement = $pdo->prepare($ssql);
+    $statement->execute([
+      ':name' => $name
+    ]);
+    if($statement && $statement->rowCount() != 1) {
+      return null;
+    } else {
+      return $statement->fetch();
+    }
+  }
 }

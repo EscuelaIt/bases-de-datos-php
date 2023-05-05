@@ -10,6 +10,7 @@
   'errors' => [],
   'countries' => $countries,
   'stateModel' => $stateModel,
+  'isInsert' => true,
 ]) ?>
 
 <?= $this->insert('partials/customer-list', [

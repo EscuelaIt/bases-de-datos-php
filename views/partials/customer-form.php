@@ -35,6 +35,12 @@
         Selecciona el país
       </div>
     </p>
+    <?php if(isset($isInsert) && $isInsert): ?>
+      <p>
+        <label for="tags">Categorías:</label>
+        <input type="text" name="tags" id="tags" value="<?= $old["tags"] ?? '' ?>">
+      </p>
+    <?php endif ?>
     <button><?= $label ?></button>
   </form>
 </section>
